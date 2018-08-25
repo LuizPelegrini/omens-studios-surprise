@@ -5,6 +5,9 @@
 [Bb]uilds/
 Assets/AssetStoreTools*
 Assets/BayatGames*
+Assets/Anima2D*
+Assets/Editor\ Default\ Resources*
+Assets/Gizmos*
 
 # Visual Studio cache directory
 .vs/
