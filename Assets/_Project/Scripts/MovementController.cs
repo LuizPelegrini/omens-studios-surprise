@@ -4,22 +4,44 @@
 public class MovementController : MonoBehaviour {
 
 	// Util struct to place the origin of the rays
-	public struct RaycastOrigins
+	struct RaycastOrigins
 	{
 		public Vector2 bottomLeft, bottomRight;
 		public Vector2 topLeft, topRight;
 	}
 
-	private float skinWidth = .015f;				// Width to shrink the bounds
-	private BoxCollider2D _boxCollider2D;			// Reference to the boxcollider
-	public RaycastOrigins raycastOrigins;
-	private float horizontalSpacing;						// The space between the horizontal rays
-	private float verticalSpacing;							// The space between the vertical rays
+	public struct CollisionInfo
+	{
+		public bool above, below;
+		public bool left, right;
+
+		/// <summary>
+		/// Reset collision info
+		/// </summary>
+		public void Reset()
+		{
+			above = below = false;
+			left = right = false;
+		}
+	}
+
+
+	private float _skinWidth = .015f;						// Width to shrink the bounds
+	private BoxCollider2D _boxCollider2D;					// Reference to the boxcollider
+	private RaycastOrigins _raycastOrigins;
+	private CollisionInfo _collisionInfo;
+	private float _horizontalSpacing;						// The space between the horizontal rays
+	private float _verticalSpacing;							// The space between the vertical rays
 	private RaycastHit2D[] _hitResults;
 
-	[SerializeField] private int horizontalRayCount = 2;	// How many rays cast, horizontally?
-	[SerializeField] private int verticalRayCount = 2;		// How many rays cast, vertically?
+	[SerializeField] private int _horizontalRayCount = 2;	// How many rays cast, horizontally?
+	[SerializeField] private int _verticalRayCount = 2;		// How many rays cast, vertically?
 	[SerializeField] private LayerMask _collisionLayerMask;
+
+	public CollisionInfo collisionInfo
+	{
+		get { return this._collisionInfo; }
+	}
 
 	void Start()
 	{
@@ -38,12 +60,12 @@ public class MovementController : MonoBehaviour {
 	{
 		// Shrink the bounds
 		Bounds bounds = _boxCollider2D.bounds;
-		bounds.Expand(-2 * skinWidth);
+		bounds.Expand(-2 * _skinWidth);
 
-		raycastOrigins.bottomLeft = new Vector2(bounds.min.x, bounds.min.y);
-		raycastOrigins.bottomRight = new Vector2(bounds.max.x, bounds.min.y);
-		raycastOrigins.topLeft = new Vector2(bounds.min.x, bounds.max.y);
-		raycastOrigins.topRight = new Vector2(bounds.max.x, bounds.max.y);	
+		_raycastOrigins.bottomLeft = new Vector2(bounds.min.x, bounds.min.y);
+		_raycastOrigins.bottomRight = new Vector2(bounds.max.x, bounds.min.y);
+		_raycastOrigins.topLeft = new Vector2(bounds.min.x, bounds.max.y);
+		_raycastOrigins.topRight = new Vector2(bounds.max.x, bounds.max.y);	
 	}
 
 	/// <summary>
@@ -53,13 +75,13 @@ public class MovementController : MonoBehaviour {
 	{
 		// Shrink the bounds
 		Bounds bounds = _boxCollider2D.bounds;
-		bounds.Expand(-2 * skinWidth);
+		bounds.Expand(-2 * _skinWidth);
 
-		horizontalRayCount = Mathf.Clamp(horizontalRayCount, 2, int.MaxValue);
-		verticalRayCount = Mathf.Clamp(verticalRayCount, 2, int.MaxValue);
+		_horizontalRayCount = Mathf.Clamp(_horizontalRayCount, 2, int.MaxValue);
+		_verticalRayCount = Mathf.Clamp(_verticalRayCount, 2, int.MaxValue);
 
-		horizontalSpacing = bounds.size.y / (horizontalRayCount - 1);
-		verticalSpacing = bounds.size.x / (verticalRayCount - 1);
+		_horizontalSpacing = bounds.size.y / (_horizontalRayCount - 1);
+		_verticalSpacing = bounds.size.x / (_verticalRayCount - 1);
 	}
 
 
@@ -72,15 +94,15 @@ public class MovementController : MonoBehaviour {
 		float directionY = Mathf.Sign(deltaMovement.y);
 
 		// the length of the movement
-		float deltaMovementLength = Mathf.Abs(deltaMovement.y) + skinWidth;
+		float deltaMovementLength = Mathf.Abs(deltaMovement.y) + _skinWidth;
 
 		// For every ray...
-		for(int i = 0; i < verticalRayCount; i++)
+		for(int i = 0; i < _verticalRayCount; i++)
 		{
 			// If the player is moving downwards, the ray origin must start at the bottom left
 			// Otherwise, if the player is moving upwards, the ray origin must start at the top left
-			Vector2 rayOrigin = (directionY == -1) ? raycastOrigins.bottomLeft : raycastOrigins.topLeft;
-			rayOrigin += Vector2.right * verticalSpacing * i;
+			Vector2 rayOrigin = (directionY == -1) ? _raycastOrigins.bottomLeft : _raycastOrigins.topLeft;
+			rayOrigin += Vector2.right * _verticalSpacing * i;
 
 			// Cast a ray from the origin of deltaMovementLength
 			int results = Physics2D.RaycastNonAlloc(rayOrigin, directionY * Vector2.up, _hitResults, deltaMovementLength, _collisionLayerMask);
@@ -93,10 +115,14 @@ public class MovementController : MonoBehaviour {
 				float collisionDistance = _hitResults[0].distance;
 				
 				// Set as the new deltaMovement in the y-axis
-				deltaMovement.y = (collisionDistance - skinWidth) * directionY;
+				deltaMovement.y = (collisionDistance - _skinWidth) * directionY;
 
 				// To prevent the remaining rays from being cast as their length will be shortened by the distance of the collision
 				deltaMovementLength = collisionDistance;
+
+				// Where did the player collide?
+				_collisionInfo.above = (directionY == 1);
+				_collisionInfo.below = (directionY == -1);
 			}
 
 		}
@@ -111,15 +137,15 @@ public class MovementController : MonoBehaviour {
 		float directionX = Mathf.Sign(deltaMovement.x);
 
 		// the length of the movement
-		float deltaMovementLength = Mathf.Abs(deltaMovement.x) + skinWidth;
+		float deltaMovementLength = Mathf.Abs(deltaMovement.x) + _skinWidth;
 
 		// For every ray...
-		for(int i = 0; i < horizontalRayCount; i++)
+		for(int i = 0; i < _horizontalRayCount; i++)
 		{
 			// If the player is moving downwards, the ray origin must start at the bottom left
 			// Otherwise, if the player is moving upwards, the ray origin must start at the top left
-			Vector2 rayOrigin = (directionX == -1) ? raycastOrigins.bottomLeft : raycastOrigins.bottomRight;
-			rayOrigin += Vector2.up * horizontalSpacing * i;
+			Vector2 rayOrigin = (directionX == -1) ? _raycastOrigins.bottomLeft : _raycastOrigins.bottomRight;
+			rayOrigin += Vector2.up * _horizontalSpacing * i;
 
 			// Cast a ray from the origin of deltaMovementLength
 			int results = Physics2D.RaycastNonAlloc(rayOrigin, directionX * Vector2.right, _hitResults, deltaMovementLength, _collisionLayerMask);
@@ -132,10 +158,14 @@ public class MovementController : MonoBehaviour {
 				float collisionDistance = _hitResults[0].distance;
 				
 				// Set as the new deltaMovement in the y-axis
-				deltaMovement.x = (collisionDistance - skinWidth) * directionX;
+				deltaMovement.x = (collisionDistance - _skinWidth) * directionX;
 
 				// To prevent the remaining rays from being cast as their length will be shortened by the distance of the collision
 				deltaMovementLength = collisionDistance;
+
+				// Where did the player collide?
+				_collisionInfo.right = (directionX == 1);
+				_collisionInfo.left = (directionX == -1);
 			}
 
 		}
@@ -148,6 +178,9 @@ public class MovementController : MonoBehaviour {
 	{
 		// Update the origin of the ray based on the bounds position
 		UpdateRaycastOrigins();
+
+		// Reset collision info
+		_collisionInfo.Reset();
 
 		// Only check vertical collisions if the player is moving vertically
 		if(deltaMovement.y != 0)
