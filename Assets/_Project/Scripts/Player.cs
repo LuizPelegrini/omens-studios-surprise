@@ -8,6 +8,8 @@ public class Player : MonoBehaviour {
 	private float changingDirectionGrounded = .2f;
 	private float changingDirectionOnAir = .1f;
 	private bool _isFacingRight = true;
+	private Number[] _numbersCollected;
+	private int _numbersCollectedIndex = 0;
 
 	[SerializeField] private float _horizontalSpeed = 10f;
 	[SerializeField] private float _gravity = -20f;
@@ -16,6 +18,7 @@ public class Player : MonoBehaviour {
 	void Start()
 	{
 		movementController = GetComponent<MovementController>();
+		_numbersCollected = new Number[2];
 	}
 
 	void Update()
@@ -59,5 +62,40 @@ public class Player : MonoBehaviour {
 			_isFacingRight = !_isFacingRight;
 		}
 
+	}
+
+	public void CollectNumber(Number number)
+	{
+		if(_numbersCollected != null)
+		{
+			// Inventory full
+			if(_numbersCollectedIndex == 2)
+			{
+				// Drop the number of the first position
+				DropNumber(_numbersCollected[0]);
+				_numbersCollected[0] = _numbersCollected[1];
+				_numbersCollected[1] = number;
+			}
+			else
+			{
+				_numbersCollected[_numbersCollectedIndex++] = number;
+			}
+
+			print("Number: " + number.numberValue + " collected");
+		}
+	}
+
+	public void EmptyInventory()
+	{
+		// Change index of the inventory
+		_numbersCollectedIndex = 0;
+
+		// Clear UI
+	}
+
+	private void DropNumber(Number numberToDrop)
+	{
+		print("Number " + numberToDrop.numberValue + " dropped");
+		numberToDrop.Drop();
 	}
 }
