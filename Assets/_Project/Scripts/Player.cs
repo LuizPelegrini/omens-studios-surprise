@@ -5,11 +5,13 @@ public class Player : MonoBehaviour {
 
 	[HideInInspector] public Vector2 velocity;
 	[HideInInspector] public MovementController movementController;
+	public float minPoxX, maxPosX;
+	private Transform spriteTransform;
 	private float _changingDirectionGrounded = .2f;
 	private float _changingDirectionOnAir = .1f;
 	private bool _isFacingRight = true;
 	[HideInInspector] public Number[] numbersCollected;
-	private int _numbersCollectedIndex = 0;
+	[HideInInspector] public int numbersCollectedIndex = 0;
 	private float deadlyPositionY = -3.8f;
 
 	[SerializeField] private float _horizontalSpeed = 10f;
@@ -20,6 +22,8 @@ public class Player : MonoBehaviour {
 	{
 		movementController = GetComponent<MovementController>();
 		numbersCollected = new Number[2];
+
+		spriteTransform = transform.GetChild(0);
 	}
 
 	void Update()
@@ -30,6 +34,7 @@ public class Player : MonoBehaviour {
 		// prevent accumulating gravity across multiple frames, if the player is colliding vertically
 		if(movementController.collisionInfo.above || movementController.collisionInfo.below)
 			velocity.y = 0f;
+
 
 		// If the player presses the Jump button and there is a collision below it, so he can jump
 		if(Input.GetKeyDown(KeyCode.Space) && movementController.collisionInfo.below)
@@ -46,6 +51,11 @@ public class Player : MonoBehaviour {
 
 		CheckDirection();
 
+		// prevent from "climbing" walls, if the player is colliding horizontally
+		if(movementController.collisionInfo.left || movementController.collisionInfo.right)
+			velocity.x = 0f;
+
+		
 		// Move the player by certain amount (based on velocity)
 		movementController.Move(velocity * Time.deltaTime);
 
@@ -54,17 +64,17 @@ public class Player : MonoBehaviour {
 
 	void CheckDirection()
 	{
-		bool movingRight = Mathf.Sign(velocity.x) >= 1 ? true : false;
+		bool movingRight = Mathf.Sign(velocity.x) > 0 ? true : false;
 
 		if(_isFacingRight && !movingRight)
 		{
-			transform.localScale = new Vector2(transform.localScale.x * -1, transform.localScale.y);
+			spriteTransform.localScale = new Vector2(spriteTransform.localScale.x * -1, spriteTransform.localScale.y);
 			_isFacingRight = !_isFacingRight;
 		}
 
 		if(!_isFacingRight && movingRight)
 		{
-			transform.localScale = new Vector2(transform.localScale.x * -1, transform.localScale.y);
+			spriteTransform.localScale = new Vector2(spriteTransform.localScale.x * -1, spriteTransform.localScale.y);
 			_isFacingRight = !_isFacingRight;
 		}
 
@@ -75,7 +85,7 @@ public class Player : MonoBehaviour {
 		if(numbersCollected != null)
 		{
 			// Inventory full
-			if(_numbersCollectedIndex == 2)
+			if(numbersCollectedIndex == 2)
 			{
 				// Drop the number of the first position
 				DropNumber(numbersCollected[0]);
@@ -84,7 +94,7 @@ public class Player : MonoBehaviour {
 			}
 			else
 			{
-				numbersCollected[_numbersCollectedIndex++] = number;
+				numbersCollected[numbersCollectedIndex++] = number;
 			}
 
 
@@ -97,7 +107,7 @@ public class Player : MonoBehaviour {
 	public void EmptyInventory()
 	{
 		// Change index of the inventory
-		_numbersCollectedIndex = 0;
+		numbersCollectedIndex = 0;
 		// Clear UI
 		UIController.Instance.Clear();
 
