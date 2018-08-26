@@ -5,10 +5,10 @@ public class Player : MonoBehaviour {
 
 	[HideInInspector] public Vector2 velocity;
 	[HideInInspector] public MovementController movementController;
-	private float changingDirectionGrounded = .2f;
-	private float changingDirectionOnAir = .1f;
+	private float _changingDirectionGrounded = .2f;
+	private float _changingDirectionOnAir = .1f;
 	private bool _isFacingRight = true;
-	private Number[] _numbersCollected;
+	[HideInInspector] public Number[] numbersCollected;
 	private int _numbersCollectedIndex = 0;
 
 	[SerializeField] private float _horizontalSpeed = 10f;
@@ -18,7 +18,7 @@ public class Player : MonoBehaviour {
 	void Start()
 	{
 		movementController = GetComponent<MovementController>();
-		_numbersCollected = new Number[2];
+		numbersCollected = new Number[2];
 	}
 
 	void Update()
@@ -37,7 +37,7 @@ public class Player : MonoBehaviour {
 		// Target horizontal input
 		float targetVeloctityX = Input.GetAxisRaw("Horizontal") * _horizontalSpeed;
 
-		float changingDirection = movementController.collisionInfo.below ? changingDirectionGrounded : changingDirectionOnAir;
+		float changingDirection = movementController.collisionInfo.below ? _changingDirectionGrounded : _changingDirectionOnAir;
 		velocity.x = Mathf.Lerp(velocity.x, targetVeloctityX, changingDirection);
 
 		CheckDirection();
@@ -66,20 +66,23 @@ public class Player : MonoBehaviour {
 
 	public void CollectNumber(Number number)
 	{
-		if(_numbersCollected != null)
+		if(numbersCollected != null)
 		{
 			// Inventory full
 			if(_numbersCollectedIndex == 2)
 			{
 				// Drop the number of the first position
-				DropNumber(_numbersCollected[0]);
-				_numbersCollected[0] = _numbersCollected[1];
-				_numbersCollected[1] = number;
+				DropNumber(numbersCollected[0]);
+				numbersCollected[0] = numbersCollected[1];
+				numbersCollected[1] = number;
 			}
 			else
 			{
-				_numbersCollected[_numbersCollectedIndex++] = number;
+				numbersCollected[_numbersCollectedIndex++] = number;
 			}
+
+
+			UIController.Instance.ChangeInventory(this);
 
 			print("Number: " + number.numberValue + " collected");
 		}
