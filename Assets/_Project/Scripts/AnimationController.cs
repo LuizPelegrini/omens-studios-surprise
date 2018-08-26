@@ -16,17 +16,15 @@ public class AnimationController : MonoBehaviour {
 
 	void Update()
 	{
-		if(GameManager.Instance.gameOver || CameraFollow.shaking){
-			_anim.SetBool(animatorTransition, false);
+		if(GameManager.Instance.gameOver){
 			return;
 		}
 
-		if(Input.GetAxisRaw("Horizontal") != 0)
+		if(!CameraFollow.shaking && Input.GetAxisRaw("Horizontal") != 0)
 			_anim.SetBool(animatorTransition, true);
 		else
 			_anim.SetBool(animatorTransition, false);
 
-		// _anim.SetBool("jump", Mathf.Abs(_player.velocity.y) >= 2);
 		_anim.SetBool("jump", _player.movementController.collisionInfo.below);
 		_anim.SetFloat("velocityY", _player.velocity.y);
 	}

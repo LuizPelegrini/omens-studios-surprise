@@ -28,7 +28,7 @@ public class Player : MonoBehaviour {
 
 	void Update()
 	{
-		if(GameManager.Instance.gameOver || CameraFollow.shaking)
+		if(GameManager.Instance.gameOver)
 			return;
 
 		// prevent accumulating gravity across multiple frames, if the player is colliding vertically
@@ -37,7 +37,7 @@ public class Player : MonoBehaviour {
 
 
 		// If the player presses the Jump button and there is a collision below it, so he can jump
-		if(Input.GetKeyDown(KeyCode.Space) && movementController.collisionInfo.below)
+		if(Input.GetKeyDown(KeyCode.Space) && movementController.collisionInfo.below && !CameraFollow.shaking)
 			velocity.y = _jumpForce;
 
 		// Apply gravity per-frame portion
@@ -49,10 +49,11 @@ public class Player : MonoBehaviour {
 		float changingDirection = movementController.collisionInfo.below ? _changingDirectionGrounded : _changingDirectionOnAir;
 		velocity.x = Mathf.Lerp(velocity.x, targetVeloctityX, changingDirection);
 
-		CheckDirection();
+		if(!CameraFollow.shaking)
+			CheckDirection();
 
 		// prevent from "climbing" walls, if the player is colliding horizontally
-		if(movementController.collisionInfo.left || movementController.collisionInfo.right)
+		if(movementController.collisionInfo.left || movementController.collisionInfo.right || CameraFollow.shaking)
 			velocity.x = 0f;
 
 		
