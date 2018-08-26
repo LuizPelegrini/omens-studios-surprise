@@ -99,6 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _player: {fileID: 0}
   numberValue: 0
+  sprite: {fileID: 0}
 --- !u!212 &212889299766313360
 SpriteRenderer:
   m_ObjectHideFlags: 1

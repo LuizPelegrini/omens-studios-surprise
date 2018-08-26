@@ -10,6 +10,7 @@ public class Player : MonoBehaviour {
 	private float _changingDirectionGrounded = .2f;
 	private float _changingDirectionOnAir = .1f;
 	private bool _isFacingRight = true;
+	private AudioSource _audioSource;
 	[HideInInspector] public Number[] numbersCollected;
 	[HideInInspector] public int numbersCollectedIndex = 0;
 	private float deadlyPositionY = -3.8f;
@@ -17,10 +18,12 @@ public class Player : MonoBehaviour {
 	[SerializeField] private float _horizontalSpeed = 10f;
 	[SerializeField] private float _gravity = -20f;
 	[SerializeField] private float _jumpForce;
+	[SerializeField] private AudioClip _sfxNumberCollected;
 
 	void Start()
 	{
 		movementController = GetComponent<MovementController>();
+		_audioSource = GetComponent<AudioSource>();
 		numbersCollected = new Number[2];
 
 		spriteTransform = transform.GetChild(0);
@@ -85,6 +88,8 @@ public class Player : MonoBehaviour {
 	{
 		if(numbersCollected != null)
 		{
+			_audioSource.PlayOneShot(_sfxNumberCollected);
+
 			// Inventory full
 			if(numbersCollectedIndex == 2)
 			{
@@ -98,10 +103,7 @@ public class Player : MonoBehaviour {
 				numbersCollected[numbersCollectedIndex++] = number;
 			}
 
-
 			UIController.Instance.ChangeInventory(this);
-
-			print("Number: " + number.numberValue + " collected");
 		}
 	}
 
@@ -124,7 +126,6 @@ public class Player : MonoBehaviour {
 
 	private void DropNumber(Number numberToDrop)
 	{
-		print("Number " + numberToDrop.numberValue + " dropped");
 		numberToDrop.Drop();
 	}
 
