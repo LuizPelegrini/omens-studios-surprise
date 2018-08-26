@@ -94,6 +94,7 @@ public class Player : MonoBehaviour {
 		_numbersCollectedIndex = 0;
 
 		// Clear UI
+		UIController.Instance.Clear();
 	}
 
 	private void DropNumber(Number numberToDrop)
