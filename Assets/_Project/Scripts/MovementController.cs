@@ -102,7 +102,7 @@ public class MovementController : MonoBehaviour {
 			// If the player is moving downwards, the ray origin must start at the bottom left
 			// Otherwise, if the player is moving upwards, the ray origin must start at the top left
 			Vector2 rayOrigin = (directionY == -1) ? _raycastOrigins.bottomLeft : _raycastOrigins.topLeft;
-			rayOrigin += Vector2.right * _verticalSpacing * i;
+			rayOrigin += Vector2.right * (_verticalSpacing * i + deltaMovement.x);
 
 			// Cast a ray from the origin of deltaMovementLength
 			int results = Physics2D.RaycastNonAlloc(rayOrigin, directionY * Vector2.up, _hitResults, deltaMovementLength, _collisionLayerMask);

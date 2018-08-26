@@ -16,6 +16,7 @@ public class GameManager : Singleton<GameManager> {
 		{
 			gameOver = false;
 			player.ChangePosition(initialPlayerPosition);
+			player.EmptyInventory();
 		}
 	}
 }

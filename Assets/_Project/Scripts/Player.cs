@@ -98,9 +98,17 @@ public class Player : MonoBehaviour {
 	{
 		// Change index of the inventory
 		_numbersCollectedIndex = 0;
-
 		// Clear UI
 		UIController.Instance.Clear();
+
+		for (int i = 0; i < numbersCollected.Length; i++)
+		{
+			if(numbersCollected[i] != null)
+			{
+				DropNumber(numbersCollected[i]);
+				numbersCollected[i] = null;
+			}
+		}
 	}
 
 	private void DropNumber(Number numberToDrop)
