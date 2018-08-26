@@ -1039,7 +1039,7 @@ MonoBehaviour:
   destroySpeed: 1
   distance: 5
   cameraFollow: {fileID: 120354438}
-  _isTheLastWall: 1
+  _isTheLastWall: 0
 --- !u!61 &351422308
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2294,8 +2294,8 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: Congratulations!
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f58ae3da074cc51429cc353e784abfbf, type: 2}
-  m_sharedMaterial: {fileID: 21753343734379054, guid: f58ae3da074cc51429cc353e784abfbf,
+  m_fontAsset: {fileID: 11400000, guid: a66b0f5fcd42beb4b802736276416056, type: 2}
+  m_sharedMaterial: {fileID: 21333072220565676, guid: a66b0f5fcd42beb4b802736276416056,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -2304,13 +2304,14 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 4294967295
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
-  m_enableVertexGradient: 0
+  m_enableVertexGradient: 1
   m_fontColorGradient:
     topLeft: {r: 1, g: 1, b: 1, a: 1}
     topRight: {r: 1, g: 1, b: 1, a: 1}
     bottomLeft: {r: 1, g: 1, b: 1, a: 1}
     bottomRight: {r: 1, g: 1, b: 1, a: 1}
-  m_fontColorGradientPreset: {fileID: 0}
+  m_fontColorGradientPreset: {fileID: 11400000, guid: 6a57403942b440f44877ef7af49b968b,
+    type: 2}
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_overrideHtmlColors: 0
@@ -2320,8 +2321,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 58.5
-  m_fontSizeBase: 58.5
+  m_fontSize: 46.37
+  m_fontSizeBase: 46.37
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -4841,7 +4842,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 34}
+  m_AnchoredPosition: {x: 0, y: 42.4}
   m_SizeDelta: {x: 326.5, y: 81.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1654461888
@@ -4865,8 +4866,8 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: You are a Math master!
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f58ae3da074cc51429cc353e784abfbf, type: 2}
-  m_sharedMaterial: {fileID: 21753343734379054, guid: f58ae3da074cc51429cc353e784abfbf,
+  m_fontAsset: {fileID: 11400000, guid: a66b0f5fcd42beb4b802736276416056, type: 2}
+  m_sharedMaterial: {fileID: 21333072220565676, guid: a66b0f5fcd42beb4b802736276416056,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -4875,12 +4876,12 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 4294967295
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
-  m_enableVertexGradient: 0
+  m_enableVertexGradient: 1
   m_fontColorGradient:
-    topLeft: {r: 1, g: 1, b: 1, a: 1}
-    topRight: {r: 1, g: 1, b: 1, a: 1}
-    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
-    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+    topLeft: {r: 1, g: 0.76596725, b: 0, a: 1}
+    topRight: {r: 1, g: 0.76470596, b: 0, a: 1}
+    bottomLeft: {r: 0.61855316, g: 0.9811321, b: 0.55998576, a: 1}
+    bottomRight: {r: 0.61960787, g: 0.9803922, b: 0.56078434, a: 1}
   m_fontColorGradientPreset: {fileID: 0}
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
@@ -4891,13 +4892,13 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 37.7
-  m_fontSizeBase: 37.7
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_textAlignment: 514
   m_isAlignmentEnumConverted: 1
   m_characterSpacing: 0
