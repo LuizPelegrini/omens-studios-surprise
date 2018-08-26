@@ -14,13 +14,25 @@ public static class CameraUtil {
 	private static float xmax; //(1,y) on screen
 	private static float ymin; //(x,0) on screen
 	private static float ymax; //(x,1) on screen
+	private static Camera _camera;
+
+	public static Camera camera 
+	{
+		get 
+		{
+			if(_camera == null)
+				_camera = Camera.main;
+
+			return _camera;
+		}
+	}
 
 	public static float halfScreenWidthInWorldUnits
 	{
 		get
 		{ 
 			if (_halfScreenWidthInWorldUnits == 0f)
-				_halfScreenWidthInWorldUnits = Camera.main.aspect * Camera.main.orthographicSize;
+				_halfScreenWidthInWorldUnits = camera.aspect * camera.orthographicSize;
 
 			return _halfScreenWidthInWorldUnits;
 		}
@@ -31,7 +43,7 @@ public static class CameraUtil {
 		get
 		{
 			if (_halfScreenHeightInWorldUnits == 0f)
-				_halfScreenHeightInWorldUnits = Camera.main.orthographicSize;
+				_halfScreenHeightInWorldUnits = camera.orthographicSize;
 
 			return _halfScreenHeightInWorldUnits;
 		}
@@ -40,7 +52,7 @@ public static class CameraUtil {
 	public static float Xmin{
 		get{
 			if(xmin==0){
-				xmin = Camera.main.ViewportToWorldPoint (new Vector2 (0, 0)).x; 
+				xmin = camera.ViewportToWorldPoint (new Vector2 (0, 0)).x; 
 			}
 			return xmin;
 		}
@@ -48,7 +60,7 @@ public static class CameraUtil {
 	public static float Xmax{
 		get{
 			if(xmax==0){
-				xmax = Camera.main.ViewportToWorldPoint (new Vector2 (1, 0)).x; 
+				xmax = camera.ViewportToWorldPoint (new Vector2 (1, 0)).x; 
 			}
 			return xmax;
 		}
@@ -56,7 +68,7 @@ public static class CameraUtil {
 		public static float Ymin{ 
 		get{
 			if(ymin==0){
-				ymin = Camera.main.ViewportToWorldPoint (new Vector2 (0, 0)).y; 
+				ymin = camera.ViewportToWorldPoint (new Vector2 (0, 0)).y; 
 			}
 			return ymin;
 		}
@@ -64,7 +76,7 @@ public static class CameraUtil {
 		public static float Ymax{ 
 		get{
 			if(ymax==0){
-				ymax = Camera.main.ViewportToWorldPoint (new Vector2 (0, 1)).y; 
+				ymax = camera.ViewportToWorldPoint (new Vector2 (0, 1)).y; 
 			}
 			return ymax;
 		}

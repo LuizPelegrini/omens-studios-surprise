@@ -35,6 +35,9 @@ public class CloudController : MonoBehaviour {
 	{
 		GameObject cloudToSpawn = _cloudPool.GetPooledObject();
 		cloudToSpawn.transform.position = new Vector3(transform.position.x, Random.Range(_minPosY, _maxPosY));
+
+		// To prevent clouds moving based on camera
+		cloudToSpawn.transform.SetParent(null);		// I am batman haha...
 		cloudToSpawn.transform.rotation = Quaternion.identity;
 
 		cloudToSpawn.SetActive(true);

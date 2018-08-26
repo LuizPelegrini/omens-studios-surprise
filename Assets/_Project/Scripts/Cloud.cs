@@ -8,13 +8,15 @@ public class Cloud : MonoBehaviour {
 	public float offset;
 	public float minSpeed, maxSpeed;
 	public float minSize, maxSize;
-
+	public SpriteRenderer spriteRenderer;
 	
 	void OnEnable()
 	{
 		float size = Random.Range(minSize, maxSize);
 		_speed = Random.Range(minSpeed, maxSpeed);
 		transform.localScale = Vector2.one * size;
+
+		spriteRenderer.sortingOrder = Random.Range(0, 4);
 	}
 
 	// Update is called once per frame
@@ -31,6 +33,6 @@ public class Cloud : MonoBehaviour {
 
 	private bool IsOutOfScreen()
 	{
-		return transform.position.x < -(CameraUtil.halfScreenWidthInWorldUnits + offset);
+		return transform.position.x < (CameraUtil.camera.transform.position.x - (CameraUtil.halfScreenWidthInWorldUnits + offset));
 	}
 }
