@@ -10,6 +10,7 @@ public class Player : MonoBehaviour {
 	private bool _isFacingRight = true;
 	[HideInInspector] public Number[] numbersCollected;
 	private int _numbersCollectedIndex = 0;
+	private float deadlyPositionY = -3.8f;
 
 	[SerializeField] private float _horizontalSpeed = 10f;
 	[SerializeField] private float _gravity = -20f;
@@ -23,6 +24,9 @@ public class Player : MonoBehaviour {
 
 	void Update()
 	{
+		if(GameManager.Instance.gameOver)
+			return;
+
 		// prevent accumulating gravity across multiple frames, if the player is colliding vertically
 		if(movementController.collisionInfo.above || movementController.collisionInfo.below)
 			velocity.y = 0f;
@@ -44,6 +48,8 @@ public class Player : MonoBehaviour {
 
 		// Move the player by certain amount (based on velocity)
 		movementController.Move(velocity * Time.deltaTime);
+
+		CheckPosition();
 	}
 
 	void CheckDirection()
@@ -101,5 +107,18 @@ public class Player : MonoBehaviour {
 	{
 		print("Number " + numberToDrop.numberValue + " dropped");
 		numberToDrop.Drop();
+	}
+
+	void CheckPosition()
+	{
+		if(transform.position.y < deadlyPositionY)
+		{
+			GameManager.Instance.gameOver = true;
+		}
+	}
+
+	public void ChangePosition(Vector2 positionToSet)
+	{
+		transform.position = positionToSet;
 	}
 }
