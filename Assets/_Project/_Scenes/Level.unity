@@ -301,6 +301,8 @@ MonoBehaviour:
   left: 0
   right: 74
   followSpeed: 4
+  offset: 0.025
+  shaking: 0
 --- !u!1 &133666445
 GameObject:
   m_ObjectHideFlags: 0
@@ -769,7 +771,8 @@ MonoBehaviour:
   operationResult: 3
   playerHasScored: 0
   destroySpeed: 1
-  distance: 10
+  distance: 5
+  cameraFollow: {fileID: 120354438}
 --- !u!61 &351422308
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1352,7 +1355,8 @@ MonoBehaviour:
   operationResult: 2
   playerHasScored: 0
   destroySpeed: 1
-  distance: 10
+  distance: 5
+  cameraFollow: {fileID: 120354438}
 --- !u!61 &572794519
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2291,7 +2295,8 @@ MonoBehaviour:
   operationResult: 14
   playerHasScored: 0
   destroySpeed: 1
-  distance: 10
+  distance: 5
+  cameraFollow: {fileID: 120354438}
 --- !u!61 &1061921175
 BoxCollider2D:
   m_ObjectHideFlags: 0

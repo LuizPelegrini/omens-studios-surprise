@@ -15,7 +15,8 @@ public class MathChallenge : MonoBehaviour {
 	private BoxCollider2D _collider2D;
 	public bool playerHasScored;
 	public float destroySpeed = 1f;
-	public float distance = 10f;
+	public float distance = 5f;
+	public CameraFollow cameraFollow;
 
 	// Use this for initialization
 	void Start () 
@@ -50,12 +51,15 @@ public class MathChallenge : MonoBehaviour {
 
 	IEnumerator Destroying()
 	{
+		CameraFollow.shaking = true;
 		Vector3 ini = transform.position;
 		while(Vector3.Distance(ini, transform.position) < distance)
 		{
 			transform.Translate(Vector2.down * destroySpeed * Time.deltaTime);
+			cameraFollow.ShakeCamera();
 			yield return null;
 		}
+		CameraFollow.shaking = false;
 
 		Destroy(gameObject);
 	}

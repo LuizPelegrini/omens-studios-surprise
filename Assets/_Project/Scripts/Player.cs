@@ -28,7 +28,7 @@ public class Player : MonoBehaviour {
 
 	void Update()
 	{
-		if(GameManager.Instance.gameOver)
+		if(GameManager.Instance.gameOver || CameraFollow.shaking)
 			return;
 
 		// prevent accumulating gravity across multiple frames, if the player is colliding vertically
