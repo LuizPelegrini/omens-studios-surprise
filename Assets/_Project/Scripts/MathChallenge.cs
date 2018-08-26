@@ -44,6 +44,7 @@ public class MathChallenge : MonoBehaviour {
 			if(playerHasScored)
 			{
 				player.EmptyInventory();
+				GameManager.Instance.initialPlayerPosition = transform.position;
 				StartCoroutine(Destroying());
 			}
 		}
