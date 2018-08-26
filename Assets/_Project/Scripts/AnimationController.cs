@@ -16,9 +16,8 @@ public class AnimationController : MonoBehaviour {
 
 	void Update()
 	{
-		if(GameManager.Instance.gameOver){
+		if(GameManager.Instance.gameOver || GameManager.Instance.gameCompleted)
 			return;
-		}
 
 		if(!CameraFollow.shaking && Input.GetAxisRaw("Horizontal") != 0)
 			_anim.SetBool(animatorTransition, true);

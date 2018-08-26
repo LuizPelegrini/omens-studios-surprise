@@ -17,6 +17,7 @@ public class MathChallenge : MonoBehaviour {
 	public float destroySpeed = 1f;
 	public float distance = 5f;
 	public CameraFollow cameraFollow;
+	public bool _isTheLastWall;
 
 	// Use this for initialization
 	void Start () 
@@ -45,12 +46,13 @@ public class MathChallenge : MonoBehaviour {
 			{
 				player.EmptyInventory();
 				GameManager.Instance.initialPlayerPosition = transform.position;
-				StartCoroutine(Destroying());
+				player.PlayDestroyingDoor();
+				StartCoroutine(Destroying(player));
 			}
 		}
 	}
 
-	IEnumerator Destroying()
+	IEnumerator Destroying(Player player)
 	{
 		CameraFollow.shaking = true;
 		Vector3 ini = transform.position;
@@ -61,6 +63,13 @@ public class MathChallenge : MonoBehaviour {
 			yield return null;
 		}
 		CameraFollow.shaking = false;
+
+		if(_isTheLastWall)
+		{
+			player.PlayLevelComplete();
+			GameManager.Instance.CompleteGame();
+		}
+
 
 		Destroy(gameObject);
 	}
