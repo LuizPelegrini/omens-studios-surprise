@@ -18,6 +18,7 @@ public class MathChallenge : MonoBehaviour {
 	public float distance = 5f;
 	public CameraFollow cameraFollow;
 	public bool _isTheLastWall;
+	public ParticleSystem _particleSystem;
 
 	// Use this for initialization
 	void Start () 
@@ -59,14 +60,18 @@ public class MathChallenge : MonoBehaviour {
 	IEnumerator Destroying(Player player)
 	{
 		CameraFollow.shaking = true;
+		Vector3 pos = _particleSystem.transform.position;
+		_particleSystem.Play(false);
 		Vector3 ini = transform.position;
 		while(Vector3.Distance(ini, transform.position) < distance)
 		{
 			transform.Translate(Vector2.down * destroySpeed * Time.deltaTime);
 			cameraFollow.ShakeCamera();
+			_particleSystem.transform.position = pos;
 			yield return null;
 		}
 		CameraFollow.shaking = false;
+		_particleSystem.Stop(false);
 
 		if(_isTheLastWall)
 		{
