@@ -7,6 +7,13 @@ public class Number : MonoBehaviour {
 
 	[HideInInspector] public Sprite sprite;
 
+	private float _speed;
+
+	void OnEnable()
+	{
+		_speed = Random.Range(2f, 5f);
+	}
+
 	void Awake()
 	{
 		sprite = GetComponentInChildren<SpriteRenderer>().sprite;
@@ -15,9 +22,8 @@ public class Number : MonoBehaviour {
 	void Update()
 	{
 		// sin movement
-		float y = Mathf.Sin(Time.timeSinceLevelLoad);
-		print(y);
-		transform.position = new Vector2(transform.position.x, y);
+		float y = Mathf.Sin(Time.timeSinceLevelLoad * _speed);
+		transform.Translate(Vector2.up * y * Time.deltaTime);
 	}
 
 	void OnTriggerEnter2D(Collider2D other)

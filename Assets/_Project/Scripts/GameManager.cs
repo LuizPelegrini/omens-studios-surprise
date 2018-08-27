@@ -76,6 +76,7 @@ public class GameManager : Singleton<GameManager> {
 		Time.timeScale = 0f;
 		gamePaused = true;
 		_pausePanelAnimator.SetBool("gameCompleted", true);
+		_audioSourceUI.PlayOneShot(_clickSFX);
 	}
 
 	public void Resume()
@@ -83,10 +84,12 @@ public class GameManager : Singleton<GameManager> {
 		Time.timeScale = 1f;
 		gamePaused = false;
 		_pausePanelAnimator.SetBool("gameCompleted", false);
+		_audioSourceUI.PlayOneShot(_clickSFX);
 	}
 
 	public void Quit()
 	{
+		_audioSourceUI.PlayOneShot(_clickSFX);
 		Application.Quit();
 	}
 }
