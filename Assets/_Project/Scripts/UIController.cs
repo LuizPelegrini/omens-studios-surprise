@@ -6,12 +6,31 @@ public class UIController : Singleton<UIController> {
 	public Image left;
 	public Image right;
 
+	public Transform operandA, operandB;
+
 	protected override void Awake()
 	{
 		Clear();
 
+		operandA.position = new Vector2(CameraFollow.cameraPosition.x - CameraUtil.halfScreenWidthInWorldUnits + 1f, 
+										CameraFollow.cameraPosition.y + CameraUtil.halfScreenHeightInWorldUnits - 1f);
+		
+		
+		operandB.position = new Vector2(CameraFollow.cameraPosition.x - CameraUtil.halfScreenWidthInWorldUnits + 1f, 
+										CameraFollow.cameraPosition.y + CameraUtil.halfScreenHeightInWorldUnits - 2.3f);
+
 		this.IsPersistentBetweenScenes = false;
 		base.Awake();
+	}
+
+	void Update()
+	{
+		// operandA.position = new Vector2(CameraFollow.cameraPosition.x - CameraUtil.halfScreenWidthInWorldUnits + 1f, 
+		// 								CameraFollow.cameraPosition.y + CameraUtil.halfScreenHeightInWorldUnits - .5f);
+		
+		
+		// operandB.position = new Vector2(CameraFollow.cameraPosition.x - CameraUtil.halfScreenWidthInWorldUnits + 1f, 
+		// 								CameraFollow.cameraPosition.y + CameraUtil.halfScreenHeightInWorldUnits - 2.3f);
 	}
 
 	public void ChangeInventory(Player player)

@@ -112,12 +112,19 @@ public class Player : MonoBehaviour {
 
 	}
 
-	public void CollectNumber(Number number)
+	public Vector2 CollectNumber(Number number)
 	{
+		Vector2 operandPos = Vector2.zero;
+
 		if(numbersCollected != null)
 		{
 			_audioSource.PlayOneShot(_sfxNumberCollected, .3f);
 
+			if(numbersCollectedIndex == 0)
+				operandPos = UIController.Instance.operandA.position;
+			else
+				operandPos = UIController.Instance.operandB.position;
+			
 			// Inventory full
 			if(numbersCollectedIndex == 2)
 			{
@@ -130,9 +137,9 @@ public class Player : MonoBehaviour {
 			{
 				numbersCollected[numbersCollectedIndex++] = number;
 			}
-
-			UIController.Instance.ChangeInventory(this);
 		}
+
+		return operandPos;
 	}
 
 	public void EmptyInventory()

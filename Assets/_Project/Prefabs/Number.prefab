@@ -100,6 +100,8 @@ MonoBehaviour:
   _player: {fileID: 0}
   numberValue: 0
   sprite: {fileID: 0}
+  _moveSpeedToUI: 10
+  _moveSpeedToInitialPosition: 15
 --- !u!212 &212889299766313360
 SpriteRenderer:
   m_ObjectHideFlags: 1

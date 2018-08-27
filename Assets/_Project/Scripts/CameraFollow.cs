@@ -11,7 +11,13 @@ public class CameraFollow : MonoBehaviour {
 	public float offset = .05f;
 	[HideInInspector] public static bool shaking = false;
 
-	
+	public static Vector2 cameraPosition;
+
+	void OnEnable()
+	{
+		cameraPosition = transform.position;
+	}
+
 	void Update () 
 	{
 		if(GameManager.Instance.gameOver)
@@ -28,6 +34,8 @@ public class CameraFollow : MonoBehaviour {
 				Mathf.Clamp(tY, bottom, top),
 				transform.position.z
 			);
+
+			cameraPosition = transform.position;
 		}
 	}
 
