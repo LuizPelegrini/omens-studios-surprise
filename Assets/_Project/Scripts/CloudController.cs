@@ -16,6 +16,8 @@ public class CloudController : MonoBehaviour {
 		_cloudPool = GetComponent<ObjectPool>();
 		_nextSpawnTime = Time.timeSinceLevelLoad + Random.Range(1f, 2f);
 		
+		transform.position = new Vector3(CameraUtil.halfScreenWidthInWorldUnits + 2f, transform.position.y);
+
 		_minPosY = 0f;
 		_maxPosY = CameraUtil.halfScreenHeightInWorldUnits;
 	}

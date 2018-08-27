@@ -13,7 +13,8 @@ public class Player : MonoBehaviour {
 	[HideInInspector] public Number[] numbersCollected;
 	[HideInInspector] public int numbersCollectedIndex = 0;
 	private float deadlyPositionY = -3.8f;
-	private bool isFootstepPlaying = false;
+	private bool _isFootstepPlaying = false;
+	private bool _isDoorPlaying = false;
 
 	[SerializeField] private AudioSource _audioSource;
 	[SerializeField] private AudioSource _footStepsAudioSource;
@@ -40,7 +41,17 @@ public class Player : MonoBehaviour {
 
 	void Update()
 	{
-		if(GameManager.Instance.gameOver || GameManager.Instance.gameCompleted)
+		if(GameManager.Instance.gamePaused)
+			StopPlayingFootstepsSFX();
+
+		if(GameManager.Instance.gamePaused && _isDoorPlaying)
+			_audioSource.Pause();
+
+		if(!GameManager.Instance.gamePaused && _isDoorPlaying)
+			_audioSource.UnPause();
+
+
+		if(GameManager.Instance.gameOver || GameManager.Instance.gameCompleted || GameManager.Instance.gamePaused)
 			return;
 
 		// prevent accumulating gravity across multiple frames, if the player is colliding vertically
@@ -161,25 +172,26 @@ public class Player : MonoBehaviour {
 
 	public void PlayDestroyingDoor()
 	{
+		_isDoorPlaying = true;
 		_audioSource.PlayOneShot(_sfxMathDoorOpening, 1f);
 	}
 
 	private void PlayFootstepsSFX()
 	{
-		if(!isFootstepPlaying)
+		if(!_isFootstepPlaying)
 		{
 			_footStepsAudioSource.clip = _footStepsSFX;
 			_footStepsAudioSource.Play();
-			isFootstepPlaying = true;
+			_isFootstepPlaying = true;
 		}
 	}
 
 	private void StopPlayingFootstepsSFX()
 	{
-		if(isFootstepPlaying)
+		if(_isFootstepPlaying)
 		{
 			_footStepsAudioSource.Stop();
-			isFootstepPlaying = false;
+			_isFootstepPlaying = false;
 		}
 	}
 

@@ -6,16 +6,19 @@ public class GameManager : Singleton<GameManager> {
 
 	private const string _menuSceneName = "Menu";
 
-	public bool gameOver;
+	public bool gameOver, gamePaused;
 	public Player player;
 	public Vector2 initialPlayerPosition;
 	public bool gameCompleted;
 
 	public Animator _panelAnimator;
+	public Animator _pausePanelAnimator;
 	public AudioSource _audioSourceUI;
 	public AudioClip _clickSFX;
 
 	public GameObject invisibleWallGO;
+
+	public GameObject _pauseButtonGO;
 	
 	protected override void Awake()
 	{
@@ -37,27 +40,53 @@ public class GameManager : Singleton<GameManager> {
 
 	public void CompleteGame()
 	{
+		Destroy(_pauseButtonGO);
 		gameCompleted = true;
 		_panelAnimator.SetBool("gameCompleted", gameCompleted);
 	}
 
 	public void Restart()
 	{
+		Time.timeScale = 1f;
+
 		_audioSourceUI.PlayOneShot(_clickSFX);
 
 		gameCompleted = false;
 		gameOver = false;
+		gamePaused = false;
 
 		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 	}
 
 	public void GoToMenu()
 	{
+		Time.timeScale = 1f;
+
 		_audioSourceUI.PlayOneShot(_clickSFX);
 
 		gameCompleted = false;
 		gameOver = false;
+		gamePaused = false;
 
 		SceneManager.LoadScene(_menuSceneName);
+	}
+
+	public void Pause()
+	{
+		Time.timeScale = 0f;
+		gamePaused = true;
+		_pausePanelAnimator.SetBool("gameCompleted", true);
+	}
+
+	public void Resume()
+	{
+		Time.timeScale = 1f;
+		gamePaused = false;
+		_pausePanelAnimator.SetBool("gameCompleted", false);
+	}
+
+	public void Quit()
+	{
+		Application.Quit();
 	}
 }

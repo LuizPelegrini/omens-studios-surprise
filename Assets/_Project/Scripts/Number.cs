@@ -12,6 +12,14 @@ public class Number : MonoBehaviour {
 		sprite = GetComponentInChildren<SpriteRenderer>().sprite;
 	}
 
+	void Update()
+	{
+		// sin movement
+		float y = Mathf.Sin(Time.timeSinceLevelLoad);
+		print(y);
+		transform.position = new Vector2(transform.position.x, y);
+	}
+
 	void OnTriggerEnter2D(Collider2D other)
 	{
 		if(other.CompareTag("Player"))
