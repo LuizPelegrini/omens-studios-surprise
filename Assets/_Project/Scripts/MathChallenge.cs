@@ -48,6 +48,9 @@ public class MathChallenge : MonoBehaviour {
 				GameManager.Instance.initialPlayerPosition = transform.position;
 				player.PlayDestroyingDoor();
 				StartCoroutine(Destroying(player));
+			}else
+			{
+				player.PlayErrorSound();
 			}
 		}
 	}

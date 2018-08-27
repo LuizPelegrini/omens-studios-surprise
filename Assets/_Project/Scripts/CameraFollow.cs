@@ -11,12 +11,13 @@ public class CameraFollow : MonoBehaviour {
 	public float offset = .05f;
 	[HideInInspector] public static bool shaking = false;
 
-	// Update is called once per frame
+	
 	void Update () 
 	{
 		if(GameManager.Instance.gameOver)
 			return;
 
+		// Follow the player with a smooth movement
 		if(!shaking)
 		{
 			float tX = Mathf.Lerp(transform.position.x, target.position.x, followSpeed * Time.deltaTime);
@@ -30,7 +31,9 @@ public class CameraFollow : MonoBehaviour {
 		}
 	}
 
-
+	/// <summary>
+	/// Set the camera position at a random point
+	/// </summary>
 	public void ShakeCamera()
 	{
 		Vector3 random = Random.insideUnitCircle;

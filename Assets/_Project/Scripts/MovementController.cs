@@ -3,7 +3,6 @@
 [RequireComponent(typeof(BoxCollider2D))]
 public class MovementController : MonoBehaviour {
 
-	// Util struct to place the origin of the rays
 	struct RaycastOrigins
 	{
 		public Vector2 bottomLeft, bottomRight;

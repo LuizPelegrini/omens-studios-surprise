@@ -14,9 +14,12 @@ public class GameManager : Singleton<GameManager> {
 	public Animator _panelAnimator;
 	public AudioSource _audioSourceUI;
 	public AudioClip _clickSFX;
+
+	public GameObject invisibleWallGO;
 	
 	protected override void Awake()
 	{
+		invisibleWallGO.transform.position = new Vector3(-CameraUtil.halfScreenWidthInWorldUnits - .4f, invisibleWallGO.transform.position.y);
 		this.IsPersistentBetweenScenes = false;
 		base.Awake();
 	}

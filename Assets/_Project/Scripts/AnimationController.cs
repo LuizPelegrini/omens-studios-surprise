@@ -5,8 +5,8 @@ using UnityEngine;
 public class AnimationController : MonoBehaviour {
 
 	private const string animatorTransition = "movingHorizontally";
-	Player _player;
-	Animator _anim;
+	Player _player;			// Reference to the player
+	Animator _anim;			// Animator reference
 
 	void Start()
 	{
@@ -19,6 +19,7 @@ public class AnimationController : MonoBehaviour {
 		if(GameManager.Instance.gameOver || GameManager.Instance.gameCompleted)
 			return;
 
+		// Prevent the player from animation with the wall is being opened
 		if(!CameraFollow.shaking && Input.GetAxisRaw("Horizontal") != 0)
 			_anim.SetBool(animatorTransition, true);
 		else

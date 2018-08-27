@@ -28,6 +28,7 @@ public class Player : MonoBehaviour {
 	[SerializeField] private AudioClip _sfxJump;
 	[SerializeField] private AudioClip _footStepsSFX;
 	[SerializeField] private AudioClip _levelCompleteSFX;
+	[SerializeField] private AudioClip _errorSoundSFX;
 
 	void Start()
 	{
@@ -51,7 +52,7 @@ public class Player : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.Space) && movementController.collisionInfo.below && !CameraFollow.shaking)
 		{
 			velocity.y = _jumpForce;
-			_audioSource.PlayOneShot(_sfxJump, .5f);
+			_audioSource.PlayOneShot(_sfxJump, .2f);
 		}
 
 		// Apply gravity per-frame portion
@@ -104,7 +105,7 @@ public class Player : MonoBehaviour {
 	{
 		if(numbersCollected != null)
 		{
-			_audioSource.PlayOneShot(_sfxNumberCollected, .5f);
+			_audioSource.PlayOneShot(_sfxNumberCollected, .3f);
 
 			// Inventory full
 			if(numbersCollectedIndex == 2)
@@ -160,7 +161,7 @@ public class Player : MonoBehaviour {
 
 	public void PlayDestroyingDoor()
 	{
-		_audioSource.PlayOneShot(_sfxMathDoorOpening, .5f);
+		_audioSource.PlayOneShot(_sfxMathDoorOpening, 1f);
 	}
 
 	private void PlayFootstepsSFX()
@@ -184,7 +185,12 @@ public class Player : MonoBehaviour {
 
 	public void PlayLevelComplete()
 	{
-		_audioSource.PlayOneShot(_levelCompleteSFX);
+		_audioSource.PlayOneShot(_levelCompleteSFX, .2f);
+	}
+
+	public void PlayErrorSound()
+	{
+		_audioSource.PlayOneShot(_errorSoundSFX, .8f);
 	}
 
 }

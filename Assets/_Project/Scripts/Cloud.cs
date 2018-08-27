@@ -19,7 +19,6 @@ public class Cloud : MonoBehaviour {
 		spriteRenderer.sortingOrder = Random.Range(0, 4);
 	}
 
-	// Update is called once per frame
 	void Update () 
 	{
 		// Move even if the game is paused

@@ -47,9 +47,9 @@ TagManager:
   - name: ForeGround
     uniqueID: 123616479
     locked: 0
-  - name: Paula
-    uniqueID: 2925806145
-    locked: 0
   - name: Tiles
     uniqueID: 3937274421
+    locked: 0
+  - name: Paula
+    uniqueID: 2925806145
     locked: 0
